@@ -1,0 +1,4 @@
+select count(id), author from jiraaction where actiontype="comment" group by author order by count(id) desc
+
+select count(id), monthname(created), year(created) from jiraissue group by month(created) + "_" + year(created)
+
