@@ -7,3 +7,17 @@ select count(id), monthname(created), year(created) from jiraissue group by mont
 # Top 10 Ticket Requestors
 select count(id), creator from jiraissue group by creator order by count(id) desc limit 10
 
+# Ticket Breakdown per Hour
+select count(id), hour(created) from jiraissue group by hour(created)
+
+# Ticket Closed per Month
+select count(id), month(created) from jiraissue where issuestatus = 5 group by month(created)
+
+# Tickets Opened During Business Hours
+select count(id) from jiraissue where hour(created) > 9 and hour(created) < 17
+
+# Tickets Opened During Non-Business Hours
+select count(id) from jiraissue where hour(created) < 9 or hour(created) > 17
+
+# Top 10 Ticket Requestors
+select creator, count(id) from jiraissue group by creator order by count(id) desc limit 10
