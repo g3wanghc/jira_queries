@@ -1,4 +1,9 @@
-select count(id), author from jiraaction where actiontype="comment" group by author order by count(id) desc
+# Top 35 Ticket Commentators
+select count(id), author from jiraaction where actiontype="comment" group by author order by count(id) desc limit 35
 
+# Monthly Ticket Distribution
 select count(id), monthname(created), year(created) from jiraissue group by month(created) + "_" + year(created)
+
+# Top 10 Ticket Requestors
+select count(id), creator from jiraissue group by creator order by count(id) desc limit 10
 
