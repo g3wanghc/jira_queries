@@ -1,23 +1,24 @@
 # Top 35 Ticket Commentators
-select count(id), author from jiraaction where actiontype="comment" group by author order by count(id) desc limit 35
+select author, count(id) as comments from jiraaction where actiontype="comment" and month(created)=month(curdate()) and year(created)=year(curdate()) group by author order by count(id) desc limit 35
 
 # Monthly Ticket Distribution
-select count(id), monthname(created), year(created) from jiraissue group by month(created) + "_" + year(created)
+select monthname(created) as month, count(id) as tickets from jiraissue where year(created)=year(curdate()) group by month(created) + "_" + year(created)
 
 # Top 10 Ticket Requestors
-select count(id), creator from jiraissue group by creator order by count(id) desc limit 10
+select creator as requestor, count(id) as tickets from jiraissue where month(created)=month(curdate()) and year(created)=year(curdate()) group by creator order by count(id) desc limit 10
 
 # Ticket Breakdown per Hour
-select count(id), hour(created) from jiraissue group by hour(created)
+select hour(created) as hour, count(id) as tickets from jiraissue where month(created)=month(curdate()) and year(created)=year(curdate()) group by hour(created)
 
 # Ticket Closed per Month
-select count(id), month(created) from jiraissue where issuestatus = 5 group by month(created)
+select monthname(created) as month, count(id) as tickets from jiraissue where issuestatus = 5 and year(created)=year(curdate()) group by month(created)
 
 # Tickets Opened During Business Hours
-select count(id) from jiraissue where hour(created) > 9 and hour(created) < 17
+select count(id) as tickets from jiraissue where hour(created) > 9 and hour(created) < 17 and month(created)=month(curdate()) and year(created)=year(curdate())
 
 # Tickets Opened During Non-Business Hours
-select count(id) from jiraissue where hour(created) < 9 or hour(created) > 17
+select count(id) as tickets from jiraissue where hour(created) < 9 or hour(created) > 17 and month(created)=month(curdate()) and year(created)=year(curdate())
 
 # Top 10 Ticket Requestors
-select creator, count(id) from jiraissue group by creator order by count(id) desc limit 10
+select creator, count(id) as tickets from jiraissue where month(created)=month(curdate()) and year(created)=year(curdate()) group by creator order by count(id) desc limit 10
+
